@@ -1,0 +1,76 @@
+$bg-page:#FFF5F3;
+$primary-color: #0B334E;
+$secondary-color: #074970;
+$white-element:#FFFFFF;
+$glow-effect:#FF6544;
+$glow-effect-2:#76DEF3;
+$accent:#FF8F77;
+$soft-orange:#FFCEC4;
+$bg-overlay:rgba(0, 0, 0, 0.7098);
+$body-text:#29332F;
+$nutral:#F6FAF9;
+$transparent:rgba(255, 255, 255, 0);
+
+$primary-font: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+$secondary-font: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+
+
+$small-size: 14px;
+$accent-text-size: 18px;
+$box-small-size: 16px;
+$body-text-size: 20px;
+$box-title-size: 22px;
+$special-size: 30px;
+$box-big-size: 34px;
+$big-size: 36px;
+$hero-headline-size: 96Px;
+$accent-text-style: italic;
+
+
+
+body {
+  background-color: $bg-page;
+  font-family: $primary-font;
+  font-size: $body-text-size;
+}
+
+.main-container{
+  padding: "5% 5%",
+}
+
+.hero-title{
+  font-family: $secondary-font;
+  font-size: $hero-headline-size;
+  color: $secondary-color;
+}
+
+.hero-paragraph{
+  font-family: $secondary-font;
+  font-size: $box-small-size;
+  color: $body-text;
+  width: 35%;
+}
+
+.button {
+  font-size: $box-small-size;
+  border: none;
+  border-radius: 0px 20px 20px;
+  padding: 10px 28px;
+
+}
+
+.glow-button {
+  background-color: $glow-effect;
+  color: $nutral;
+}
+
+.trans-button {
+  background-color: $transparent;
+  color: $primary-color;
+  border: 1px solid $primary-color;
+}
+
+.blue-button {
+  background-color: $primary-color;
+  color: $nutral;
+}
