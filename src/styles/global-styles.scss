@@ -1,14 +1,11 @@
+$primary: #0B334E;
+$secondary:#FF6544;
+$success:#FF8F77;
+$info:#FFCEC4;
+$glow-effect:#76DEF3;
+$dark:#29332F;
 $bg-page:#FFF5F3;
-$primary-color: #0B334E;
-$secondary-color: #074970;
-$white-element:#FFFFFF;
-$glow-effect:#FF6544;
-$glow-effect-2:#76DEF3;
-$accent:#FF8F77;
-$soft-orange:#FFCEC4;
 $bg-overlay:rgba(0, 0, 0, 0.7098);
-$body-text:#29332F;
-$nutral:#F6FAF9;
 $transparent:rgba(255, 255, 255, 0);
 
 $primary-font: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -28,49 +25,52 @@ $accent-text-style: italic;
 
 
 
+@import "~bootstrap/scss/bootstrap.scss";
+
+
+@mixin responsiveFont($baseSize) {
+  font-size: $baseSize;
+  @media (max-width: 768px) {
+    font-size: $baseSize * 0.8;
+  }
+  @media (max-width: 576px) {
+    font-size: $baseSize * 0.6;
+  }
+}
+
 body {
   background-color: $bg-page;
   font-family: $primary-font;
   font-size: $body-text-size;
 }
-
+/*
 .main-container{
   padding: "5% 5%",
+}*/
+
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+  color: $primary;
+  font-weight: bold;
 }
 
-.hero-title{
+
+.hero-title {
   font-family: $secondary-font;
-  font-size: $hero-headline-size;
-  color: $secondary-color;
+  @include responsiveFont($hero-headline-size);
 }
 
-.hero-paragraph{
+.hero-paragraph {
   font-family: $secondary-font;
   font-size: $box-small-size;
-  color: $body-text;
-  width: 35%;
+  @media (max-width: 576px) {
+    font-size: $box-small-size * 0.8;
+  }
 }
 
-.button {
+.custom-button {
   font-size: $box-small-size;
-  border: none;
-  border-radius: 0px 20px 20px;
+  border-radius: 0px 20px 20px; 
   padding: 10px 28px;
-
 }
 
-.glow-button {
-  background-color: $glow-effect;
-  color: $nutral;
-}
-
-.trans-button {
-  background-color: $transparent;
-  color: $primary-color;
-  border: 1px solid $primary-color;
-}
-
-.blue-button {
-  background-color: $primary-color;
-  color: $nutral;
-}

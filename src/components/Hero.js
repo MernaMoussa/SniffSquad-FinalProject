@@ -1,41 +1,75 @@
 import React from "react";
-import Title from "./Title";
-import Paragraph from "./Paragraph";
-import { Button } from "react-bootstrap";
+import bgHero from "../bg-img/bg-hero.png";
+import { Container, Grid, Button, Typography } from "@mui/material";
 
 const Hero = ({ handleClick }) => {
   return (
-    <div style={heroStyle}>
-      <Title title="Dogs meet" className="hero-title" />
-      <Title title="and owners Greet" className="hero-title" />
-
-      <Paragraph
-        paragraph="Owning a pet brings boundless joy, a loyal companion, and a constant source of happiness. With our diverse range of 200+ pets, find the ideal match for your furry friend today"
-        className="hero-paragraph mb-5"
-      />
-
-      <Button
-        className="button trans-button "
-        onClick={() => handleClick("login")}
-      >
-        Login
-      </Button>
-      <Button
-        className="button glow-button ms-5"
-        onClick={() => handleClick("register")}
-      >
-        Register Now
-      </Button>
-    </div>
+    <section style={heroStyle(bgHero)}>
+      <Container maxWidth="xl" sx={{ pt: 12 }}>
+        <Grid container>
+          <Grid item>
+            <Grid container direction="column" spacing={3}>
+              <Grid item>
+                <Typography variant="h1" sx={{ color: "primary.main" }}>
+                  Dogs meet
+                </Typography>
+                <Typography variant="h1" sx={{ color: "primary.main" }}>
+                  and owners Greet
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Grid container item xs={12} sm={6}>
+                  <Typography
+                    variant="body1"
+                    sx={{
+                      color: "neutral.dark",
+                    }}
+                  >
+                    Owning a pet brings boundless joy, a loyal companion, and a
+                    constant source of happiness. With our diverse range of 200+
+                    pets, find the ideal match for your furry friend today
+                  </Typography>
+                </Grid>
+              </Grid>
+            </Grid>
+            <Grid container spacing={5} sx={{ pt: 6 }}>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  sx={{
+                    color: "primary.main",
+                    borderColor: "primary.main",
+                  }}
+                  onClick={() => handleClick("login")}
+                >
+                  Login
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                  variant="contained"
+                  sx={{ color: "white", bgcolor: "secondary.main" }}
+                  onClick={() => handleClick("register")}
+                >
+                  Register Now
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
+        </Grid>
+      </Container>
+    </section>
   );
 };
 
 export default Hero;
 
-const heroStyle = {
-  backgroundImage: `url(${require("../bg-img/bg-hero.png")})`,
+const heroStyle = (bgImage) => ({
+  backgroundImage: `url(${bgImage})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  padding: "5% 5%",
-  height: "600px",
-};
+  minHeight: "500px",
+  "@media (max-width: 768px)": {
+    backgroundSize: "contain",
+  },
+});

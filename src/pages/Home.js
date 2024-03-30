@@ -10,9 +10,9 @@ const Home = () => {
     navigate(`/${title}`);
   };
   return (
-    <>
+    <section>
       <Hero handleClick={handleClick} />
-    </>
+    </section>
   );
 };
 

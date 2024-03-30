@@ -1,19 +1,24 @@
 import React from "react";
+import { Container, Typography } from "@mui/material";
 
 const Footer = () => {
   const containerStyle = {
-    backgroundColor: "#FF8F77",
-    color: "#0B334E",
     textAlign: "center",
-    padding: "20px",
-    position: "fixed",
     bottom: 0,
     width: "100%",
+    paddingTop: "1rem",
   };
+
   return (
-    <div style={containerStyle}>
-      <p>&copy; 2024 Your Website. All rights reserved.</p>
-    </div>
+    <footer
+      style={{ backgroundColor: "#4caf50", color: "#fff", ...containerStyle }}
+    >
+      <Container>
+        <Typography variant="body2">
+          &copy; 2024 Your Website. All rights reserved.
+        </Typography>
+      </Container>
+    </footer>
   );
 };
 
