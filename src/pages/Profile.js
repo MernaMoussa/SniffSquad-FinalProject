@@ -3,6 +3,7 @@ import bgHero from "../bg-img/bg-hero.png";
 import { useParams } from "react-router-dom";
 import { Container, Grid, Button, Typography } from "@mui/material";
 import { baseUrl } from "../constants/baseurl";
+import DogFilterContainer from "../components/DogFilterContainer";
 
 const Profile = ({ handleClick }) => {
   const { userId } = useParams();
@@ -85,7 +86,7 @@ const Profile = ({ handleClick }) => {
             style={{ height: "100%" }}
           >
             <Grid item xs={12} md={6} lg={5}>
-              hi
+              <DogFilterContainer />
             </Grid>
             <Grid item xs={12} md={6} lg={7}>
               hi

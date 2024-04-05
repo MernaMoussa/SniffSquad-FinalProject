@@ -5,7 +5,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
-const Select = (props) => {
+const FilterOptions = (props) => {
   const [value, setValue] = React.useState(props.defaultValue || "");
 
   const handleChange = (event) => {
@@ -39,4 +39,4 @@ const Select = (props) => {
   );
 };
 
-export default Select;
+export default FilterOptions;
