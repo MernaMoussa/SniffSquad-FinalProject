@@ -14,6 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import appPages from "../pages/pages";
 import { useNavigate } from "react-router-dom";
+import { baseUrl } from "../constants/baseurl";
 
 const settings = ["Profile", "Find Playmate", "Logout"];
 
@@ -29,12 +30,31 @@ function Header() {
     setAnchorElUser(event.currentTarget);
   };
   const handleCloseNavMenu = (to) => () => {
-    navigate(to);
     setAnchorElNav(null);
+    navigate(to);
   };
 
-  const handleCloseUserMenu = () => {
+  const handleCloseUserMenu = (setting) => () => {
     setAnchorElUser(null);
+    if (setting === "Logout") {
+      logout();
+    }
+  };
+  const logout = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (response.ok) {
+        navigate("/", { replace: true });
+      } else {
+        console.error("Failed to logout:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
@@ -153,7 +173,7 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                <MenuItem key={setting} onClick={handleCloseUserMenu(setting)}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}

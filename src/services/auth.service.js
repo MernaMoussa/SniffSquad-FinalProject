@@ -1,16 +1,25 @@
 import { baseUrl } from "../constants/baseurl";
 
-const isAuthenticated = async () => {
+const isAuthenticatedService = async () => {
   try {
-    const response = await fetch(`${baseUrl}/profile`, {
+    const response = await fetch(`${baseUrl}/check-auth`, {
       method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
       credentials: "include",
     });
-    return response.ok;
+
+    if (response.ok) {
+      return { isAuthenticated: true };
+    } else {
+      return { isAuthenticated: false };
+    }
   } catch (error) {
     console.error("Error checking authentication status:", error);
-    return false;
+    return { isAuthenticated: false };
   }
 };
 
-export default isAuthenticated;
+export default isAuthenticatedService;
