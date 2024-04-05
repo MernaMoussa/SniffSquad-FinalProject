@@ -22,59 +22,76 @@ const DogFilterContainer = () => {
   const handleEnergyLevelChange = (value) => {
     setEnergyLevel(value);
   };
+
+  const genderOptions = ["Male", "Female"];
+
+  const sizeOptions = [
+    "Small",
+    "Medium",
+    "Large",
+    "Extra Large",
+    "Small / Medium",
+    "Medium / Large",
+    "Any Size",
+  ];
+
+  const ageOptions = [
+    "Puppy (0-1 year)",
+    "Young Adult (1-3 years)",
+    "Adult (3-7 years)",
+    "Senior (7+ years)",
+    "Any Age",
+  ];
+
+  const energyLevelOptions = [
+    "Couch Potato",
+    "Low Energy",
+    "Moderate Energy",
+    "High Energy",
+    "Very High Energy",
+    "Active Athlete",
+    "Any Energy Level",
+  ];
+
   return (
     <div>
       <h1>Filter</h1>
       <FilterOptions
-        formlabel="Gender"
+        label="Gender"
+        labelId="gender-label"
+        name="gender"
+        options={genderOptions}
         defaultValue=""
-        options={["Male", "Female"]}
         onChange={handleGenderChange}
       />
-      <p>Selected Option: {gender}</p>
+      <p>Selected Gender: {gender}</p>
       <FilterOptions
-        formlabel="Size"
+        label="Size"
+        labelId="size-label"
+        name="size"
+        options={sizeOptions}
         defaultValue=""
-        options={[
-          "Small",
-          "Medium",
-          "Large",
-          "Extra Large",
-          "Small / Medium",
-          "Medium / Large",
-          "Any Size",
-        ]}
         onChange={handleSizeChange}
       />
-      <p>Selected Option: {size}</p>
+      <p>Selected Size: {size}</p>
       <FilterOptions
-        formlabel="Age"
+        label="Age"
+        labelId="age-label"
+        name="age"
+        options={ageOptions}
         defaultValue=""
-        options={[
-          "Puppy (0-1 year)",
-          "Young Adult (1-3 years)",
-          "Adult (3-7 years)",
-          "Senior (7+ years)",
-          "Any Age",
-        ]}
         onChange={handleAgeChange}
       />
-      <p>Selected Option: {age}</p>
+      <p>Selected Age: {age}</p>
       <FilterOptions
-        formlabel="Energy Level"
+        label="Energy Level"
+        labelId="energy-level-label"
+        name="energyLevel"
+        options={energyLevelOptions}
         defaultValue=""
-        options={[
-          "Couch Potato",
-          "Low Energy",
-          "Moderate Energy",
-          "High Energy",
-          "Very High Energy",
-          "Active Athlete",
-          "Any Energy Level",
-        ]}
         onChange={handleEnergyLevelChange}
       />
-      <p>Selected Option: {energyLevel}</p>
+      <p>Selected Energy Level: {energyLevel}</p>
     </div>
   );
 };

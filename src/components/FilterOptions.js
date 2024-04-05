@@ -17,19 +17,17 @@ const FilterOptions = (props) => {
 
   return (
     <FormControl>
-      <FormLabel id="demo-controlled-radio-buttons-group">
-        {props.formlabel}
-      </FormLabel>
+      <FormLabel id={props.labelId}>{props.label}</FormLabel>
       <RadioGroup
-        aria-labelledby="demo-controlled-radio-buttons-group"
-        name="controlled-radio-buttons-group"
+        aria-labelledby={props.labelId}
+        name={props.name}
         value={value}
         onChange={handleChange}
       >
         {props.options.map((option, index) => (
           <FormControlLabel
             key={index}
-            value={option.toLowerCase()}
+            value={option}
             control={<Radio />}
             label={option}
           />
