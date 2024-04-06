@@ -6,10 +6,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
 const FilterOptions = (props) => {
-  const [value, setValue] = React.useState(props.defaultValue || "");
-
   const handleChange = (event) => {
-    setValue(event.target.value);
     if (props.onChange) {
       props.onChange(event.target.value);
     }
@@ -21,7 +18,7 @@ const FilterOptions = (props) => {
       <RadioGroup
         aria-labelledby={props.labelId}
         name={props.name}
-        value={value}
+        value={props.value}
         onChange={handleChange}
       >
         {props.options.map((option, index) => (

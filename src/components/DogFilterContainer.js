@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import FilterOptions from "./FilterOptions";
+import { Button } from "@mui/material";
 
 const DogFilterContainer = () => {
   const [gender, setGender] = useState("");
@@ -7,20 +8,11 @@ const DogFilterContainer = () => {
   const [age, setAge] = useState("");
   const [energyLevel, setEnergyLevel] = useState("");
 
-  const handleGenderChange = (value) => {
-    setGender(value);
-  };
-
-  const handleSizeChange = (value) => {
-    setSize(value);
-  };
-
-  const handleAgeChange = (value) => {
-    setAge(value);
-  };
-
-  const handleEnergyLevelChange = (value) => {
-    setEnergyLevel(value);
+  const resetFilters = () => {
+    setGender("");
+    setSize("");
+    setAge("");
+    setEnergyLevel("");
   };
 
   const genderOptions = ["Male", "Female"];
@@ -30,8 +22,8 @@ const DogFilterContainer = () => {
     "Medium",
     "Large",
     "Extra Large",
-    "Small / Medium",
-    "Medium / Large",
+    "Small/Medium",
+    "Medium/Large",
     "Any Size",
   ];
 
@@ -61,8 +53,8 @@ const DogFilterContainer = () => {
         labelId="gender-label"
         name="gender"
         options={genderOptions}
-        defaultValue=""
-        onChange={handleGenderChange}
+        value={gender}
+        onChange={setGender}
       />
       <p>Selected Gender: {gender}</p>
       <FilterOptions
@@ -70,8 +62,8 @@ const DogFilterContainer = () => {
         labelId="size-label"
         name="size"
         options={sizeOptions}
-        defaultValue=""
-        onChange={handleSizeChange}
+        value={size}
+        onChange={setSize}
       />
       <p>Selected Size: {size}</p>
       <FilterOptions
@@ -79,8 +71,8 @@ const DogFilterContainer = () => {
         labelId="age-label"
         name="age"
         options={ageOptions}
-        defaultValue=""
-        onChange={handleAgeChange}
+        value={age}
+        onChange={setAge}
       />
       <p>Selected Age: {age}</p>
       <FilterOptions
@@ -88,10 +80,13 @@ const DogFilterContainer = () => {
         labelId="energy-level-label"
         name="energyLevel"
         options={energyLevelOptions}
-        defaultValue=""
-        onChange={handleEnergyLevelChange}
+        value={energyLevel}
+        onChange={setEnergyLevel}
       />
       <p>Selected Energy Level: {energyLevel}</p>
+      <Button variant="contained" onClick={resetFilters}>
+        Reset
+      </Button>
     </div>
   );
 };
