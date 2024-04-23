@@ -17,13 +17,13 @@ import { baseUrl } from "../constants/baseurl";
 import logoLight from "../bg-img/logo-light.png";
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("Required"),
-  lastName: Yup.string().required("Required"),
+  first_name: Yup.string().required("Required"),
+  last_name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
-  phoneNumber: Yup.string().required("Required"),
-  dateOfBirth: Yup.date().required("Required"),
+  phone_number: Yup.string(),
+  date_of_birth: Yup.date().required("Required"),
   password: Yup.string().required("Required"),
-  confirmPassword: Yup.string()
+  confirm_password: Yup.string()
     .oneOf([Yup.ref("password"), null], "Passwords must match")
     .required("Required"),
 });
@@ -35,13 +35,13 @@ const Registration = () => {
 
   const formik = useFormik({
     initialValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
-      phoneNumber: "",
-      dateOfBirth: "",
+      phone_number: "",
+      date_of_birth: "",
       password: "",
-      confirmPassword: "",
+      confirm_password: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
@@ -125,50 +125,53 @@ const Registration = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    id="firstName"
-                    name="firstName"
+                    id="first_name"
+                    name="first_name"
                     label="First Name"
                     variant="outlined"
                     margin="normal"
-                    value={formik.values.firstName}
+                    value={formik.values.first_name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.firstName &&
-                      Boolean(formik.errors.firstName)
+                      formik.touched.first_name &&
+                      Boolean(formik.errors.first_name)
                     }
                     helperText={
-                      formik.touched.firstName && formik.errors.firstName
+                      formik.touched.first_name && formik.errors.first_name
                     }
                     sx={{ bgcolor: "white", borderRadius: 1 }}
                   />
-                  {formik.touched.firstName && formik.errors.firstName && (
+                  {formik.touched.first_name && formik.errors.first_name && (
                     <div style={{ color: "red" }}>
-                      {formik.errors.firstName}
+                      {formik.errors.first_name}
                     </div>
                   )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    id="lastName"
-                    name="lastName"
+                    id="last_name"
+                    name="last_name"
                     label="Last Name"
                     variant="outlined"
                     margin="normal"
-                    value={formik.values.lastName}
+                    value={formik.values.last_name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.lastName && Boolean(formik.errors.lastName)
+                      formik.touched.last_name &&
+                      Boolean(formik.errors.last_name)
                     }
                     helperText={
-                      formik.touched.lastName && formik.errors.lastName
+                      formik.touched.last_name && formik.errors.last_name
                     }
                     sx={{ bgcolor: "white", borderRadius: 1 }}
                   />
-                  {formik.touched.lastName && formik.errors.lastName && (
-                    <div style={{ color: "red" }}>{formik.errors.lastName}</div>
+                  {formik.touched.last_name && formik.errors.last_name && (
+                    <div style={{ color: "red" }}>
+                      {formik.errors.last_name}
+                    </div>
                   )}
                 </Grid>
               </Grid>
@@ -177,58 +180,61 @@ const Registration = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    id="phoneNumber"
-                    name="phoneNumber"
+                    id="phone_number"
+                    name="phone_number"
                     label="Phone Number"
                     variant="outlined"
                     margin="normal"
-                    value={formik.values.phoneNumber}
+                    value={formik.values.phone_number}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.phoneNumber &&
-                      Boolean(formik.errors.phoneNumber)
+                      formik.touched.phone_number &&
+                      Boolean(formik.errors.phone_number)
                     }
                     helperText={
-                      formik.touched.phoneNumber && formik.errors.phoneNumber
+                      formik.touched.phone_number && formik.errors.phone_number
                     }
                     sx={{ bgcolor: "white", borderRadius: 1 }}
                   />
-                  {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.phoneNumber}
-                    </div>
-                  )}
+                  {formik.touched.phone_number &&
+                    formik.errors.phone_number && (
+                      <div style={{ color: "red" }}>
+                        {formik.errors.phone_number}
+                      </div>
+                    )}
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    id="dateOfBirth"
-                    name="dateOfBirth"
+                    id="date_of_birth"
+                    name="date_of_birth"
                     label="Date of Birth"
                     type="date"
                     variant="outlined"
                     margin="normal"
-                    value={formik.values.dateOfBirth}
+                    value={formik.values.date_of_birth}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.dateOfBirth &&
-                      Boolean(formik.errors.dateOfBirth)
+                      formik.touched.date_of_birth &&
+                      Boolean(formik.errors.date_of_birth)
                     }
                     helperText={
-                      formik.touched.dateOfBirth && formik.errors.dateOfBirth
+                      formik.touched.date_of_birth &&
+                      formik.errors.date_of_birth
                     }
                     InputLabelProps={{
                       shrink: true,
                     }}
                     sx={{ bgcolor: "white", borderRadius: 1 }}
                   />
-                  {formik.touched.dateOfBirth && formik.errors.dateOfBirth && (
-                    <div style={{ color: "red" }}>
-                      {formik.errors.dateOfBirth}
-                    </div>
-                  )}
+                  {formik.touched.date_of_birth &&
+                    formik.errors.date_of_birth && (
+                      <div style={{ color: "red" }}>
+                        {formik.errors.date_of_birth}
+                      </div>
+                    )}
                 </Grid>
               </Grid>
 
@@ -278,29 +284,29 @@ const Registration = () => {
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
-                    id="confirmPassword"
-                    name="confirmPassword"
+                    id="confirm_password"
+                    name="confirm_password"
                     label="Confirm Password"
                     variant="outlined"
                     margin="normal"
                     type="password"
-                    value={formik.values.confirmPassword}
+                    value={formik.values.confirm_password}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
                     error={
-                      formik.touched.confirmPassword &&
-                      Boolean(formik.errors.confirmPassword)
+                      formik.touched.confirm_password &&
+                      Boolean(formik.errors.confirm_password)
                     }
                     helperText={
-                      formik.touched.confirmPassword &&
-                      formik.errors.confirmPassword
+                      formik.touched.confirm_password &&
+                      formik.errors.confirm_password
                     }
                     sx={{ bgcolor: "white", borderRadius: 1 }}
                   />
-                  {formik.touched.confirmPassword &&
-                    formik.errors.confirmPassword && (
+                  {formik.touched.confirm_password &&
+                    formik.errors.confirm_password && (
                       <div style={{ color: "red" }}>
-                        {formik.errors.confirmPassword}
+                        {formik.errors.confirm_password}
                       </div>
                     )}
                 </Grid>

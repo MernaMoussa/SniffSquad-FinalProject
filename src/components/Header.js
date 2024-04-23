@@ -18,7 +18,7 @@ import { baseUrl } from "../constants/baseurl";
 
 const settings = ["Profile", "Find Playmate", "Logout"];
 
-function Header() {
+function ResponsiveAppBar() {
   const navigate = useNavigate();
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -29,17 +29,37 @@ function Header() {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-  const handleCloseNavMenu = (to) => () => {
+
+  const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-    navigate(to);
   };
 
-  const handleCloseUserMenu = (setting) => () => {
+  const handleCloseUserMenu = () => {
     setAnchorElUser(null);
-    if (setting === "Logout") {
-      logout();
-    }
   };
+
+  const navigateToPage = (href) => {
+    navigate(href);
+    handleCloseNavMenu();
+  };
+
+  const navigateToSetting = (setting) => {
+    switch (setting) {
+      case "Find Playmate":
+        navigate("/findplaymate");
+        break;
+      case "Profile":
+        navigate("/profile");
+        break;
+      case "Logout":
+        logout();
+        break;
+      default:
+        break;
+    }
+    handleCloseUserMenu();
+  };
+
   const logout = async () => {
     try {
       const response = await fetch(`${baseUrl}/logout`, {
@@ -112,7 +132,10 @@ function Header() {
               {appPages.map((page) => (
                 <MenuItem
                   key={page.text}
-                  onClick={handleCloseNavMenu(page.href)}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigateToPage(page.href);
+                  }}
                 >
                   <Typography textAlign="center">{page.text}</Typography>
                 </MenuItem>
@@ -142,7 +165,10 @@ function Header() {
             {appPages.map((page) => (
               <Button
                 key={page.text}
-                onClick={handleCloseNavMenu(page.href)}
+                onClick={() => {
+                  handleCloseNavMenu();
+                  navigateToPage(page.href);
+                }}
                 sx={{ my: 2, color: "primary.main", display: "block" }}
               >
                 {page.text}
@@ -173,7 +199,13 @@ function Header() {
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu(setting)}>
+                <MenuItem
+                  key={setting}
+                  onClick={() => {
+                    handleCloseNavMenu();
+                    navigateToSetting(setting);
+                  }}
+                >
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
               ))}
@@ -184,4 +216,4 @@ function Header() {
     </AppBar>
   );
 }
-export default Header;
+export default ResponsiveAppBar;

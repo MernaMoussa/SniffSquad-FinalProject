@@ -69,7 +69,7 @@ const heroStyle = (bgImage) => ({
   backgroundSize: "cover",
   backgroundPosition: "center",
   minHeight: "500px",
-  "@media (max-width: 768px)": {
+  "@media (maxWidth: 768px)": {
     backgroundSize: "contain",
   },
 });

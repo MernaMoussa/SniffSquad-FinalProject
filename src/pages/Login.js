@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -11,8 +10,8 @@ import {
   Button,
   Avatar,
 } from "@mui/material";
-import { baseUrl } from "../constants/baseurl";
 import logoLight from "../bg-img/logo-light.png";
+import { UserContext } from "../context/UserProvider";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -20,8 +19,7 @@ const validationSchema = Yup.object({
 });
 
 const Login = () => {
-  const navigate = useNavigate();
-  const [error, setError] = useState(null);
+  const { loginUser, error } = useContext(UserContext);
 
   const formik = useFormik({
     initialValues: {
@@ -30,30 +28,7 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      console.log("values:", values);
-      try {
-        const response = await fetch(`${baseUrl}/login`, {
-          method: "POST",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(values),
-          credentials: "include",
-        });
-        console.log("API response:", response);
-        if (response.ok) {
-          navigate("/profile");
-        } else {
-          const errorData = await response.json();
-          console.error("Error data from API:", errorData);
-          setError(errorData.message || "Login failed");
-        }
-      } catch (error) {
-        console.error("Error logging in:", error);
-        setError("An unexpected error occurred");
-      }
-      setSubmitting(false);
+      await loginUser(values, setSubmitting);
     },
   });
 
