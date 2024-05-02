@@ -1,11 +1,40 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import bgHero from "../bg-img/bg-hero.png";
 import { Container, Grid, Button, Typography } from "@mui/material";
-import DogFilterContainer from "../components/DogFilterContainer";
 import { UserContext } from "../context/UserProvider";
+import DogFilterContainer from "../components/playmate/filter/DogFilterContainer";
+import DogList from "../components/playmate/display/DogList";
+import { baseUrl } from "../constants/baseurl";
 
 const FindPlaymate = ({ handleClick }) => {
   const { user } = useContext(UserContext);
+  const [dogs, setDogs] = useState([]);
+
+  useEffect(() => {
+    fetchDogsData();
+  }, []);
+
+  async function fetchDogsData() {
+    try {
+      const response = await fetch(`${baseUrl}/dogs`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch dog data");
+      }
+
+      const data = await response.json();
+      setDogs(data);
+    } catch (error) {
+      console.error("Error fetching dog data:", error);
+    }
+  }
 
   return (
     <>
@@ -35,19 +64,19 @@ const FindPlaymate = ({ handleClick }) => {
         </Container>
       </section>
       <section>
-        <Container>
+        <Container maxWidth="xl">
           <Grid
             container
             spacing={3}
             justifyContent="center"
             alignItems="stretch"
-            style={{ height: "100%" }}
+            style={{ minHeight: "100%" }}
           >
-            <Grid item xs={12} md={6} lg={5}>
+            <Grid item xs={12} md={4} lg={3}>
               <DogFilterContainer />
             </Grid>
-            <Grid item xs={12} md={6} lg={7}>
-              hi
+            <Grid item xs={12} md={8} lg={9} justifyContent="center">
+              <DogList dogs={dogs} />
             </Grid>
           </Grid>
         </Container>

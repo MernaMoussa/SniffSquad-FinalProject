@@ -14,7 +14,7 @@ import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
 import appPages from "../pages/pages";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "../constants/baseurl";
+import { baseUrl } from "./baseurl";
 
 const settings = ["Profile", "Find Playmate", "Logout"];
 
@@ -52,7 +52,7 @@ function ResponsiveAppBar() {
         navigate("/profile");
         break;
       case "Logout":
-        logout();
+        logout(navigate);
         break;
       default:
         break;

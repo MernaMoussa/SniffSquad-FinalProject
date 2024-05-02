@@ -14,6 +14,8 @@ import FindPlaymate from "./pages/FindPlaymate";
 import NoPageFound from "./pages/NoPageFound";
 import UserProvider from "./context/UserProvider";
 import Profile from "./pages/Profile";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
 
 function App() {
   /*const [isAuth, setIsAuth] = useState(false);
@@ -42,7 +44,7 @@ function App() {
               {/*<Route
               path="/profile"
               element={isAuth ? <Profile /> : <Navigate to="/login" replace />}
-            />*/}
+              />*/}
               <Route path="/findplaymate" element={<FindPlaymate />} />
               <Route path="/profile" element={<Profile />} />
             </Route>

@@ -1,15 +1,43 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { baseUrl } from "../constants/baseurl";
-import { useNavigate } from "react-router-dom";
 
 export const UserContext = createContext();
 
 function UserProvider({ children }) {
-  const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
 
-  const loginUser = async (userData, setSubmitting) => {
+  useEffect(() => {
+    const accessToken = document.cookie.includes("access_token");
+    if (accessToken) {
+      fetchUserData();
+    }
+  }, []);
+
+  const fetchUserData = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/profile`, {
+        method: "GET",
+        credentials: "include",
+      });
+      console.log("Profile response:", response);
+      if (response.ok) {
+        const userData = await response.json();
+        console.log("User data:", userData);
+        setUser(userData);
+      } else {
+        console.log("User data fetch failed:", response.status);
+        setUser(null);
+        setError("Failed to fetch user data");
+      }
+    } catch (error) {
+      console.error("Fetch user data error:", error);
+      setUser(null);
+      setError("An unexpected error occurred");
+    }
+  };
+
+  const loginUser = async (userData, setSubmitting, navigate) => {
     try {
       const response = await fetch(`${baseUrl}/login`, {
         method: "POST",
@@ -32,13 +60,22 @@ function UserProvider({ children }) {
       }
     } catch (error) {
       setError("An unexpected error occurred");
+    } finally {
+      setSubmitting(false);
     }
-    setSubmitting(false);
   };
 
-  const logoutUser = () => {
-    setUser(null);
-    navigate("/");
+  const logoutUser = async (navigate) => {
+    try {
+      await fetch(`${baseUrl}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+      setUser(null);
+      navigate("/");
+    } catch (error) {
+      setError("An unexpected error occurred");
+    }
   };
 
   return (

@@ -14,7 +14,15 @@ const FilterOptions = (props) => {
 
   return (
     <FormControl>
-      <FormLabel id={props.labelId}>{props.label}</FormLabel>
+      <FormLabel
+        id={props.labelId}
+        sx={{
+          color: "secondary.main",
+          fontWeight: "bold",
+        }}
+      >
+        {props.label}
+      </FormLabel>
       <RadioGroup
         aria-labelledby={props.labelId}
         name={props.name}

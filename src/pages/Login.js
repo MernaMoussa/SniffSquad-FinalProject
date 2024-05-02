@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import logoLight from "../bg-img/logo-light.png";
 import { UserContext } from "../context/UserProvider";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -20,7 +21,7 @@ const validationSchema = Yup.object({
 
 const Login = () => {
   const { loginUser, error } = useContext(UserContext);
-
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -28,7 +29,7 @@ const Login = () => {
     },
     validationSchema: validationSchema,
     onSubmit: async (values, { setSubmitting }) => {
-      await loginUser(values, setSubmitting);
+      await loginUser(values, setSubmitting, navigate);
     },
   });
 

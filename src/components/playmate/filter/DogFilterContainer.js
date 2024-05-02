@@ -47,7 +47,7 @@ const DogFilterContainer = () => {
 
   return (
     <div>
-      <h1>Filter</h1>
+      <h1 color="primary.main">Filter</h1>
       <FilterOptions
         label="Gender"
         labelId="gender-label"
