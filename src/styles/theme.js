@@ -16,12 +16,13 @@ const theme = createTheme({
     },
     neutral: {
       light: "#EEEEEE",
+      lighter: "#838383",
       dark: "#555555",
       darker: "#333333",
     },
 
     glowEffect: {
-      main: "#76DEF3",
+      main: "#93cae6",
     },
 
     bgOverlay: {

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -12,16 +12,31 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 import AdbIcon from "@mui/icons-material/Adb";
-import appPages from "../pages/pages";
+import initialAppPages from "../pages/pages";
 import { useNavigate } from "react-router-dom";
-import { baseUrl } from "./baseurl";
+import { UserContext } from "../context/UserProvider";
+import Notification from "./Notification";
 
 const settings = ["Profile", "Find Playmate", "Logout"];
 
 function ResponsiveAppBar() {
+  const { userPicture, logoutUser, isAuth } = useContext(UserContext);
   const navigate = useNavigate();
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = useState(null);
+  const [anchorElUser, setAnchorElUser] = useState(null);
+  const [appPages, setAppPages] = useState(initialAppPages);
+
+  useEffect(() => {
+    if (isAuth) {
+      const updatedAppPages = [
+        { text: "Schedule Playdate", href: "/schedule-playdate" },
+        ...appPages.filter((page) => page.text !== "Home"),
+      ];
+      setAppPages(updatedAppPages);
+    } else {
+      setAppPages(initialAppPages);
+    }
+  }, [isAuth]);
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,29 +67,12 @@ function ResponsiveAppBar() {
         navigate("/profile");
         break;
       case "Logout":
-        logout(navigate);
+        logoutUser(navigate);
         break;
       default:
         break;
     }
     handleCloseUserMenu();
-  };
-
-  const logout = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/logout`, {
-        method: "POST",
-        credentials: "include",
-      });
-
-      if (response.ok) {
-        navigate("/", { replace: true });
-      } else {
-        console.error("Failed to logout:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error logging out:", error);
-    }
   };
 
   return (
@@ -142,7 +140,9 @@ function ResponsiveAppBar() {
               ))}
             </Menu>
           </Box>
+
           <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
+
           <Typography
             variant="h5"
             noWrap
@@ -175,42 +175,50 @@ function ResponsiveAppBar() {
               </Button>
             ))}
           </Box>
-
-          <Box sx={{ flexGrow: 0 }}>
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
-            <Menu
-              sx={{ mt: "45px" }}
-              id="menu-appbar"
-              anchorEl={anchorElUser}
-              anchorOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-              open={Boolean(anchorElUser)}
-              onClose={handleCloseUserMenu}
-            >
-              {settings.map((setting) => (
-                <MenuItem
-                  key={setting}
-                  onClick={() => {
-                    handleCloseNavMenu();
-                    navigateToSetting(setting);
+          {isAuth ? (
+            <>
+              <Box sx={{ flexGrow: 0.1, display: { md: "flex" } }}>
+                <Notification />
+              </Box>
+              <Box sx={{ flexGrow: 0 }}>
+                <Tooltip title="Open settings">
+                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                    <Avatar alt="Remy Sharp" src={userPicture} />
+                  </IconButton>
+                </Tooltip>
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
                   }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
                 >
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
+                  {settings.map((setting) => (
+                    <MenuItem
+                      key={setting}
+                      onClick={() => {
+                        handleCloseNavMenu();
+                        navigateToSetting(setting);
+                      }}
+                    >
+                      <Typography textAlign="center">{setting}</Typography>
+                    </MenuItem>
+                  ))}
+                </Menu>
+              </Box>
+            </>
+          ) : (
+            ""
+          )}
         </Toolbar>
       </Container>
     </AppBar>

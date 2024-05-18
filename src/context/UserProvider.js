@@ -6,13 +6,28 @@ export const UserContext = createContext();
 function UserProvider({ children }) {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [userPicture, setUserPicture] = useState(null);
+  const [isAuth, setIsAuth] = useState(false);
+  const [checkedAuth, setCheckedAuth] = useState(false);
 
   useEffect(() => {
     const accessToken = document.cookie.includes("access_token");
+    console.log(accessToken);
     if (accessToken) {
       fetchUserData();
+      setIsAuth(true);
     }
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchUserPicture();
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setCheckedAuth(true);
+  }, [isAuth]);
 
   const fetchUserData = async () => {
     try {
@@ -37,6 +52,30 @@ function UserProvider({ children }) {
     }
   };
 
+  const fetchUserPicture = async () => {
+    try {
+      const response = await fetch(`${baseUrl}/user/photo`, {
+        method: "GET",
+        credentials: "include",
+      });
+      console.log(response);
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch user picture");
+      }
+
+      const data = await response.json();
+      console.log(data);
+
+      const photoUrl = `${baseUrl}/${data?.photoUrl}`;
+      console.log(photoUrl);
+
+      setUserPicture(photoUrl);
+    } catch (error) {
+      console.error("Error fetching user picture:", error);
+    }
+  };
+
   const loginUser = async (userData, setSubmitting, navigate) => {
     try {
       const response = await fetch(`${baseUrl}/login`, {
@@ -51,8 +90,13 @@ function UserProvider({ children }) {
 
       if (response.ok) {
         const responseData = await response.json();
+        setIsAuth(true);
         const { user: userData } = responseData;
+        const photoUrl = `${baseUrl}/${userData?.picture_url}`;
+        console.log(photoUrl);
+        console.log(userData);
         setUser(userData);
+        setUserPicture(photoUrl);
         navigate("/findplaymate");
       } else {
         const errorData = await response.json();
@@ -72,6 +116,8 @@ function UserProvider({ children }) {
         credentials: "include",
       });
       setUser(null);
+      setUserPicture(null);
+      setIsAuth(false);
       navigate("/");
     } catch (error) {
       setError("An unexpected error occurred");
@@ -79,7 +125,19 @@ function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ user, loginUser, logoutUser, error }}>
+    <UserContext.Provider
+      value={{
+        user,
+        loginUser,
+        logoutUser,
+        error,
+        userPicture,
+        setUserPicture,
+        isAuth,
+        setIsAuth,
+        checkedAuth,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

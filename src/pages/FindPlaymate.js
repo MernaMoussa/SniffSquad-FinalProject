@@ -9,11 +9,49 @@ import { baseUrl } from "../constants/baseurl";
 const FindPlaymate = ({ handleClick }) => {
   const { user } = useContext(UserContext);
   const [dogs, setDogs] = useState([]);
+  const [filteredDogs, setFilteredDogs] = useState(dogs);
+  const [categoryFilter, setCategoryFilter] = useState(null);
 
   useEffect(() => {
     fetchDogsData();
   }, []);
 
+  useEffect(() => {
+    filterDogs();
+  }, [categoryFilter, dogs]);
+
+  const filterDogs = () => {
+    let updatedFilteredDogs = dogs;
+    if (categoryFilter?.length > 0) {
+      console.log(categoryFilter);
+      updatedFilteredDogs = dogs.filter((dog) => {
+        console.log(dog);
+        return categoryFilter.every((filter, index) => {
+          console.log(filter);
+          console.log(index);
+          if (!filter) return true;
+          switch (index) {
+            case 0:
+              return dog?.gender === filter;
+            case 1:
+              return dog?.size === filter;
+            case 2:
+              return dog?.age === filter;
+            case 3:
+              return dog?.energy_level === filter;
+            default:
+              return true;
+          }
+        });
+      });
+    }
+    setFilteredDogs(updatedFilteredDogs);
+  };
+
+  const handleFiltering = (...filters) => {
+    console.log(filters);
+    setCategoryFilter(filters);
+  };
   async function fetchDogsData() {
     try {
       const response = await fetch(`${baseUrl}/dogs`, {
@@ -63,7 +101,7 @@ const FindPlaymate = ({ handleClick }) => {
           </Grid>
         </Container>
       </section>
-      <section>
+      <section id="filter-section">
         <Container maxWidth="xl">
           <Grid
             container
@@ -73,10 +111,14 @@ const FindPlaymate = ({ handleClick }) => {
             style={{ minHeight: "100%" }}
           >
             <Grid item xs={12} md={4} lg={3}>
-              <DogFilterContainer />
+              <DogFilterContainer handleFiltering={handleFiltering} />
             </Grid>
             <Grid item xs={12} md={8} lg={9} justifyContent="center">
-              <DogList dogs={dogs} />
+              {filteredDogs.length > 0 ? (
+                <DogList dogs={filteredDogs} />
+              ) : (
+                <Typography variant="body1">No dogs found.</Typography>
+              )}
             </Grid>
           </Grid>
         </Container>

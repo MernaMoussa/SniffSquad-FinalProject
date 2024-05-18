@@ -14,9 +14,9 @@ import UserDogsList from "../components/profile/dogs/UserDogsList";
 import UploadUserPhoto from "../components/profile/user/UploadUserPhoto";
 
 const Profile = () => {
-  const { user } = useContext(UserContext);
+  const { user, setIsAuth } = useContext(UserContext);
   const [userData, setUserData] = useState(user);
-  const [dogs, setuserDogs] = useState([]);
+  const [userDogs, setUserDogs] = useState([]);
   const [editUserMode, setEditUserMode] = useState(false);
   const [editDogMode, setEditDogMode] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -39,7 +39,7 @@ const Profile = () => {
       const userDogsdata = await response.json();
 
       if (userDogsdata.length !== 0) {
-        setuserDogs(userDogsdata);
+        setUserDogs(userDogsdata);
       }
     } catch (error) {
       console.error("Error fetching dog data:", error);
@@ -49,6 +49,7 @@ const Profile = () => {
   useEffect(() => {
     setUserData(user || {});
     fetchUserDogsData();
+    //    setIsAuth(true);
   }, [user]);
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -254,10 +255,11 @@ const Profile = () => {
       <Divider />
 
       <UserDogsList
-        dogs={dogs}
+        dogs={userDogs}
         editDogMode={editDogMode}
         setEditDogMode={setEditDogMode}
         handleDeleteDog={handleDeleteDog}
+        fetchUserDogsData={fetchUserDogsData}
       />
     </Container>
   );

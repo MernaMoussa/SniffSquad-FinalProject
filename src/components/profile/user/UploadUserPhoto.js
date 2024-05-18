@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { baseUrl } from "../../../constants/baseurl";
 import Button from "@mui/material/Button";
 import UploadButton from "../UploadButton";
+import { UserContext } from "../../../context/UserProvider";
 const UploadUserPhoto = () => {
+  const { userPicture, setUserPicture } = useContext(UserContext);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [profilePicture, setProfilePicture] = useState(null);
   const [fileSelected, setFileSelected] = useState(false);
-
-  useEffect(() => {
-    const savedProfilePicture = localStorage.getItem("profilePicture");
-    if (savedProfilePicture) {
-      setProfilePicture(savedProfilePicture);
-    }
-  }, []);
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
@@ -34,11 +28,10 @@ const UploadUserPhoto = () => {
         throw new Error("Failed to upload file");
       }
 
-      const data = await response.json();
-      const photoUrl = `${baseUrl}/${data?.photoUrl}`;
-      console.log("Photo URL received from server:", photoUrl);
-      setProfilePicture(photoUrl);
-      localStorage.setItem("profilePicture", photoUrl);
+      const responseData = await response.json();
+      const uploadedPhotoUrl = `${baseUrl}/${responseData.photoUrl}`;
+
+      setUserPicture(uploadedPhotoUrl);
       setFileSelected(false);
       console.log("Upload success");
     } catch (error) {
@@ -48,10 +41,10 @@ const UploadUserPhoto = () => {
 
   return (
     <div style={{ textAlign: "center" }}>
-      {profilePicture && (
+      {userPicture && (
         <div style={{ marginBottom: "20px" }}>
           <img
-            src={profilePicture}
+            src={userPicture}
             alt="Profile"
             style={{ width: "200px", height: "200px", objectFit: "cover" }}
           />

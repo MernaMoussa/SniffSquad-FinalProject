@@ -1,11 +1,14 @@
 import React from "react";
-import bgHero from "../bg-img/bg-hero.png";
+import bgHero from "../../bg-img/bg-hero.png";
 import { Container, Grid, Button, Typography } from "@mui/material";
 
 const Hero = ({ handleClick }) => {
   return (
     <section style={heroStyle(bgHero)}>
-      <Container maxWidth="xl" sx={{ pt: 12 }}>
+      <Container
+        maxWidth="xl"
+        sx={{ minHeight: "80vh", alignContent: "center" }}
+      >
         <Grid container>
           <Grid item>
             <Grid container direction="column" spacing={3}>
@@ -68,7 +71,6 @@ const heroStyle = (bgImage) => ({
   backgroundImage: `url(${bgImage})`,
   backgroundSize: "cover",
   backgroundPosition: "center",
-  minHeight: "500px",
   "@media (maxWidth: 768px)": {
     backgroundSize: "contain",
   },

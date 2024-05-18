@@ -10,13 +10,18 @@ import {
   TextField,
   Button,
   Avatar,
-  Snackbar,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from "@mui/material";
-import { Alert } from "@mui/material";
 import { baseUrl } from "../constants/baseurl";
 import logoLight from "../bg-img/logo-light.png";
+import { genderOptions } from "../common/DogOptions";
+import SuccessMessage from "../constants/SuccessMessage";
 
 const validationSchema = Yup.object({
+  gender: Yup.string().required("Required"),
   first_name: Yup.string().required("Required"),
   last_name: Yup.string().required("Required"),
   email: Yup.string().email("Invalid email address").required("Required"),
@@ -35,6 +40,7 @@ const Registration = () => {
 
   const formik = useFormik({
     initialValues: {
+      gender: "",
       first_name: "",
       last_name: "",
       email: "",
@@ -70,9 +76,6 @@ const Registration = () => {
       setSubmitting(false);
     },
   });
-  const handleCloseSuccessMessage = () => {
-    setSuccessMessageOpen(false);
-  };
 
   return (
     <Container maxWidth="xl" style={{ minHeight: "100vh" }}>
@@ -122,6 +125,35 @@ const Registration = () => {
           >
             <form onSubmit={formik.handleSubmit}>
               <Grid container spacing={2}>
+                <Grid item xs={12} md={12} lg={12}>
+                  <FormControl
+                    sx={{ width: "25ch", bgcolor: "white", borderRadius: 1 }}
+                  >
+                    <InputLabel id="gender">Gender</InputLabel>
+                    <Select
+                      labelId="gender"
+                      id="select-gender"
+                      name="gender"
+                      value={formik.values.gender}
+                      label="gender"
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      error={
+                        formik.touched.gender && Boolean(formik.errors.gender)
+                      }
+                      helpertext={formik.touched.gender && formik.errors.gender}
+                    >
+                      {genderOptions.map((option) => (
+                        <MenuItem key={option} value={option}>
+                          {option}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                  {formik.touched.gender && formik.errors.gender && (
+                    <div style={{ color: "red" }}>{formik.errors.gender}</div>
+                  )}
+                </Grid>
                 <Grid item xs={12} md={6}>
                   <TextField
                     fullWidth
@@ -324,19 +356,11 @@ const Registration = () => {
               </Button>
             </form>
           </Paper>
-          <Snackbar
-            open={successMessageOpen}
-            autoHideDuration={2000}
-            onClose={handleCloseSuccessMessage}
-          >
-            <Alert
-              onClose={handleCloseSuccessMessage}
-              severity="success"
-              sx={{ width: "100%" }}
-            >
-              User registered successfully!
-            </Alert>
-          </Snackbar>
+          <SuccessMessage
+            setSuccessMessageOpen={setSuccessMessageOpen}
+            successMessageOpen={successMessageOpen}
+            successMessage="User registered successfully!"
+          />
         </Grid>
       </Grid>
     </Container>
