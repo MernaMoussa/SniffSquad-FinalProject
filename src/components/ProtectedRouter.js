@@ -3,13 +3,14 @@ import { Navigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
 
 const ProtectedRoute = ({ children }) => {
-  const { isAuth, checkedAuth } = useContext(UserContext);
+  /*const { isAuth, checkedAuth } = useContext(UserContext);
   console.log(isAuth);
   if (!checkedAuth) {
     return null;
-  }
+  }*/
+  const accessToken = document.cookie.includes("access_token");
 
-  if (!isAuth) {
+  if (!accessToken) {
     return <Navigate to="/login" />;
   }
 
