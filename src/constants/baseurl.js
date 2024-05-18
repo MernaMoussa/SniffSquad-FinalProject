@@ -1,1 +1,1 @@
-export const baseUrl = "https://sniffsquad-backend.vercel.app/";
+export const baseUrl = "https://sniffsquad-backend.vercel.app";
