@@ -40,7 +40,7 @@ const DogCard = ({ dog, owner }) => {
       const data = await response.json();
       console.log(data);
 
-      const photoUrl = `${baseUrl}/${data?.photoUrl}`;
+      const photoUrl = data?.pictureUrl;
       console.log(photoUrl);
       setDogPicture(photoUrl);
     } catch (error) {

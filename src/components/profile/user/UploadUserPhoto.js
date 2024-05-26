@@ -29,7 +29,7 @@ const UploadUserPhoto = () => {
       }
 
       const responseData = await response.json();
-      const uploadedPhotoUrl = `${baseUrl}/${responseData.photoUrl}`;
+      const uploadedPhotoUrl = responseData.pictureUrl;
 
       setUserPicture(uploadedPhotoUrl);
       setFileSelected(false);
