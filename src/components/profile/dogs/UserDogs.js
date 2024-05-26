@@ -84,7 +84,7 @@ const UserDogs = ({
       const photoUrl = data?.pictureUrl;
       console.log(photoUrl);
 
-      setDogPicture(photoUrl?.pictureUrl);
+      setDogPicture(photoUrl);
     } catch (error) {
       console.error("Error fetching dog picture:", error);
     }
@@ -266,10 +266,10 @@ const UserDogs = ({
           style={{ minHeight: "25ch" }}
         >
           <Grid item xs={12} md={4} lg={3}>
-            {dogPicture && (
+            {dogData?.picture_url && (
               <div style={{ marginBottom: "20px" }}>
                 <img
-                  src={dogPicture}
+                  src={dogData?.picture_url}
                   alt="Profile"
                   style={{
                     width: "200px",
