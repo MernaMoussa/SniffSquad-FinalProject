@@ -81,7 +81,7 @@ const UserDogs = ({
       const data = await response.json();
       console.log(data);
 
-      const photoUrl = `${baseUrl}/${data?.photoUrl}`;
+      const photoUrl = data?.photoUrl;
       console.log(photoUrl);
 
       setDogPicture(photoUrl);
