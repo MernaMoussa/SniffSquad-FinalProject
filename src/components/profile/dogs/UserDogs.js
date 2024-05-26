@@ -84,7 +84,7 @@ const UserDogs = ({
       const photoUrl = data?.pictureUrl;
       console.log(photoUrl);
 
-      setDogPicture(photoUrl);
+      setDogPicture(photoUrl?.pictureUrl);
     } catch (error) {
       console.error("Error fetching dog picture:", error);
     }
