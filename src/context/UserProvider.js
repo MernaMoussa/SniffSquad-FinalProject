@@ -92,7 +92,7 @@ function UserProvider({ children }) {
         const responseData = await response.json();
         setIsAuth(true);
         const { user: userData } = responseData;
-        const photoUrl = `${baseUrl}/${userData?.picture_url}`;
+        const photoUrl = userData?.pictureUrl;
         console.log(photoUrl);
         console.log(userData);
         setUser(userData);
