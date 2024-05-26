@@ -266,10 +266,10 @@ const UserDogs = ({
           style={{ minHeight: "25ch" }}
         >
           <Grid item xs={12} md={4} lg={3}>
-            {dogData?.picture_url && (
+            {dogPicture && (
               <div style={{ marginBottom: "20px" }}>
                 <img
-                  src={dogData?.picture_url}
+                  src={dogPicture}
                   alt="Profile"
                   style={{
                     width: "200px",
