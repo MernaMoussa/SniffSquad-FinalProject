@@ -29,6 +29,7 @@ const UploadUserPhoto = () => {
       }
 
       const responseData = await response.json();
+      console.log(responseData);
       const uploadedPhotoUrl = responseData.pictureUrl;
 
       setUserPicture(uploadedPhotoUrl);
