@@ -117,9 +117,6 @@ function PlayDates() {
       }
       return new Promise((res, rej) => {
         setTimeout(() => {
-          setPlaydates((prevPlaydates) =>
-            prevPlaydates.filter((playdate) => playdate.id !== deletedId)
-          );
           res(deletedId);
         }, 3000);
       });
