@@ -118,7 +118,11 @@ export default function Notification() {
       const result = await response.json();
       setSnackbarMessage(result.message);
       setSnackbarOpen(true);
-      fetchUserNotifications();
+      setUserNotifications((prevNotifications) =>
+        prevNotifications.filter(
+          (notification) => notification.id !== invitationId
+        )
+      );
     } catch (error) {
       console.error("Error updating invitation status:", error);
       setSnackbarMessage(`Failed to ${status} invitation.`);
