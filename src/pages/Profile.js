@@ -14,7 +14,7 @@ import UserDogsList from "../components/profile/dogs/UserDogsList";
 import UploadUserPhoto from "../components/profile/user/UploadUserPhoto";
 
 const Profile = () => {
-  const { user, setIsAuth } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [userData, setUserData] = useState(user);
   const [userDogs, setUserDogs] = useState([]);
   const [editUserMode, setEditUserMode] = useState(false);

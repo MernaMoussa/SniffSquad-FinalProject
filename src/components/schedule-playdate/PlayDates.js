@@ -1,11 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { baseUrl } from "../../constants/baseurl";
 import { formatDate } from "./formateDate.utility";
 import { Typography } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
+import { UserContext } from "../../context/UserProvider";
+import { differenceInCalendarISOWeeks } from "date-fns";
 
 function PlayDates() {
+  const { user } = useContext(UserContext);
   const calendarRef = useRef(null);
   const [allUsersExceptReq, setAllUsersExceptReq] = useState([]);
   const [playdates, setPlaydates] = useState([]);
@@ -105,6 +108,71 @@ function PlayDates() {
     }
   };
 
+  const handleConfirm = async (event, action) => {
+    console.log("handleConfirm =", action, event.title);
+
+    return new Promise((res, rej) => {
+      if (action === "edit") {
+        fetch(`${baseUrl}/events/${event.event_id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(event),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to edit event");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            res({
+              ...event,
+              ...data,
+              event_id: event.event_id,
+            });
+          })
+          .catch((error) => {
+            console.error("Error editing event:", error);
+            rej("Ops... Failed");
+          });
+      } else if (action === "create") {
+        try {
+          const response = fetch(`${baseUrl}/${user?.id}/send-invitation`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(event),
+            credentials: "include",
+          });
+          console.log(response);
+          console.log(event);
+          if (!response.ok) {
+            throw new Error("Failed to send invitation");
+          }
+          console.log("Invitation sent successfully");
+        } catch (error) {
+          console.error("Error creating event:", error);
+          rej("Ops... Failed");
+        }
+      } else {
+        const isFail = Math.random() > 0.6;
+        setTimeout(() => {
+          if (isFail) {
+            rej("Ops... Failed");
+          } else {
+            res({
+              ...event,
+              event_id: event.event_id || Math.random(),
+            });
+          }
+        }, 3000);
+      }
+    });
+  };
+
   const handleDelete = async (deletedId) => {
     try {
       const response = await fetch(`${baseUrl}/playdates/${deletedId}`, {
@@ -133,6 +201,7 @@ function PlayDates() {
           ref={calendarRef}
           events={userEvents}
           onDelete={handleDelete}
+          onConfirm={handleConfirm}
           fields={[
             {
               name: "admin_id",
