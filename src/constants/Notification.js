@@ -10,6 +10,7 @@ import {
   Grid,
   Menu,
   MenuItem,
+  Snackbar,
   Typography,
 } from "@mui/material";
 import { baseUrl } from "./baseurl";
@@ -19,14 +20,21 @@ export default function Notification() {
   const [Badge, setBadge] = useState(null);
   const [userNotifications, setUserNotifications] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
   };
 
   async function fetchUserNotifications() {
@@ -107,9 +115,16 @@ export default function Notification() {
         throw new Error(`Failed to update invitation status to ${status}`);
       }
 
+      const result = await response.json();
+      setSnackbarMessage(result.message);
+      setSnackbarOpen(true);
       fetchUserNotifications();
     } catch (error) {
       console.error("Error updating invitation status:", error);
+      setSnackbarMessage(`Failed to ${status} invitation.`);
+      setSnackbarOpen(true);
+    } finally {
+      handleClose();
     }
   };
 
@@ -143,11 +158,10 @@ export default function Notification() {
           <Box marginTop={4} marginBottom={4} key={userNotification?.id}>
             <MenuItem onClick={handleClose}>
               <Typography variant="subtitle2" color="neutral.dark">
-                <strong>{userNotification?.senderName} .</strong>
+                <strong>{userNotification?.senderName}.</strong>
               </Typography>
               <Typography variant="body2" color="textPrimary">
-                invited you to a playdate:
-                {userNotification?.content}
+                invited you to a playdate: {userNotification?.content}
               </Typography>
               <Grid container justifyContent="space-between">
                 <Grid item xs={3}>
@@ -203,6 +217,12 @@ export default function Notification() {
           </Box>
         ))}
       </Menu>
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={snackbarMessage}
+      />
     </>
   );
 }
