@@ -89,6 +89,30 @@ export default function Notification() {
     fetchUserNotifications();
   }, []);
 
+  const handleInvitationResponse = async (invitationId, status) => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/send-invitation/${invitationId}/${status}`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to update invitation status to ${status}`);
+      }
+
+      fetchUserNotifications();
+    } catch (error) {
+      console.error("Error updating invitation status:", error);
+    }
+  };
+
   return (
     <>
       <IconButton
@@ -151,7 +175,9 @@ export default function Notification() {
                     borderColor: "primary.main",
                     fontSize: "12px",
                   }}
-                  onClick={() => handleClick("login")}
+                  onClick={() =>
+                    handleInvitationResponse(userNotification?.id, "Rejected")
+                  }
                 >
                   Reject
                 </Button>
@@ -164,7 +190,9 @@ export default function Notification() {
                     bgcolor: "secondary.main",
                     fontSize: "12px",
                   }}
-                  onClick={() => handleClick("register")}
+                  onClick={() =>
+                    handleInvitationResponse(userNotification?.id, "Approved")
+                  }
                 >
                   Confirm
                 </Button>
