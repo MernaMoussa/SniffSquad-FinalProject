@@ -115,12 +115,14 @@ function PlayDates() {
       if (!response.ok) {
         throw new Error("Failed to delete playdate");
       }
-
-      setPlaydates((prevPlaydates) =>
-        prevPlaydates.filter((playdate) => playdate.id !== deletedId)
-      );
-
-      return deletedId;
+      return new Promise((res, rej) => {
+        setTimeout(() => {
+          setPlaydates((prevPlaydates) =>
+            prevPlaydates.filter((playdate) => playdate.id !== deletedId)
+          );
+          res(deletedId);
+        }, 3000);
+      });
     } catch (error) {
       console.error("Error deleting playdate:", error);
       throw error;
