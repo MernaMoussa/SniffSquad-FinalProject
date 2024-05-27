@@ -105,12 +105,35 @@ function PlayDates() {
     }
   };
 
+  const handleDelete = async (deletedId) => {
+    try {
+      const response = await fetch(`${baseUrl}/playdates/${deletedId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete playdate");
+      }
+
+      setPlaydates((prevPlaydates) =>
+        prevPlaydates.filter((playdate) => playdate.id !== deletedId)
+      );
+
+      return deletedId;
+    } catch (error) {
+      console.error("Error deleting playdate:", error);
+      throw error;
+    }
+  };
+
   return (
     <>
       {allUsersExceptReq.length > 0 && (
         <Scheduler
           ref={calendarRef}
           events={userEvents}
+          onDelete={handleDelete}
           fields={[
             {
               name: "admin_id",
