@@ -13,7 +13,7 @@ function PlayDates() {
   const [playdates, setPlaydates] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [currentAction, setCurrentAction] = useState(null);
+  const [currentAction, setCurrentAction] = useState(false);
 
   const userEvents = playdates;
 
@@ -120,9 +120,9 @@ function PlayDates() {
   };
 
   const handleConfirm = async (event, action) => {
-    setCurrentAction(action);
     return new Promise((res, rej) => {
       if (action === "edit") {
+        setCurrentAction(true);
         const InvitationFormat = {
           content: event?.title,
           date: event?.start?.toDateString(),
@@ -242,7 +242,7 @@ function PlayDates() {
                 config: {
                   label: "Participant",
                   required: true,
-                  disabled: currentAction === "edit",
+                  disabled: currentAction,
                 },
               },
               {
