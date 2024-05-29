@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { baseUrl } from "../../constants/baseurl";
 import { formatDate } from "./formateDate.utility";
-import { CircularProgress, Snackbar, Typography } from "@mui/material";
+import { Snackbar, Typography } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../context/UserProvider";
 import { differenceInCalendarISOWeeks } from "date-fns";
@@ -14,7 +14,6 @@ function PlayDates() {
   const [playdates, setPlaydates] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [isLoading, setIsLoading] = useState("");
 
   const userEvents = playdates;
 
@@ -173,12 +172,10 @@ function PlayDates() {
 
           setSuccessMessage("Invitation sent successfully");
           setSnackbarOpen(true);
-          setIsLoading(false);
           res();
         } catch (error) {
           console.error("Error sending invitation:", error);
           rej("Ops... Failed");
-          setIsLoading(false);
         }
       } else {
         const isFail = Math.random() > 0.6;
@@ -232,7 +229,6 @@ function PlayDates() {
             events={userEvents}
             onDelete={handleDelete}
             onConfirm={handleConfirm}
-            loading={isLoading}
             fields={[
               {
                 name: "admin_id",
