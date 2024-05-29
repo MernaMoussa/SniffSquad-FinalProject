@@ -11,6 +11,7 @@ import {
   Select,
   MenuItem,
   FormControl,
+  Snackbar,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -44,6 +45,8 @@ const UserDogs = ({
   const [selectedFile, setSelectedFile] = useState(null);
   const [open, setOpen] = useState(false);
   const [successMessageOpen, setSuccessMessageOpen] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   useEffect(() => {
     if (addMode) {
@@ -124,6 +127,10 @@ const UserDogs = ({
     setFileSelected(true);
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleUploadDogPhoto = async () => {
     try {
       const formData = new FormData();
@@ -174,32 +181,30 @@ const UserDogs = ({
   };
 
   const saveNewDog = async () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(async () => {
-        try {
-          const response = await fetch(`${baseUrl}/dogs`, {
-            method: "POST",
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-            },
-            credentials: "include",
-            body: JSON.stringify(dogData),
-          });
+    try {
+      const response = await fetch(`${baseUrl}/dogs`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(dogData),
+      });
 
-          if (response.ok) {
-            const updatedData = await response.json();
-            console.log("Saved Dog:", updatedData);
-            resolve(updatedData);
-          } else {
-            throw new Error(`HTTP error ${response.status}`);
-          }
-        } catch (error) {
-          console.error("Error uploading file:", error);
-          reject(error);
-        }
-      }, 1000);
-    });
+      if (response.ok) {
+        const updatedData = await response.json();
+        console.log("Saved Dog:", updatedData);
+        setSuccessMessage("Dog saved successfully!");
+        setSnackbarOpen(true);
+        return updatedData;
+      } else {
+        throw new Error(`HTTP error ${response.status}`);
+      }
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      throw error;
+    }
   };
 
   const handelSaveNewDog = async () => {
@@ -207,23 +212,17 @@ const UserDogs = ({
     if (savedDog) {
       console.log(savedDog);
       setDogData(savedDog);
-      setSuccessMessageOpen(true);
     }
     setAddMode(false);
   };
 
-  useEffect(() => {
-    if (successMessageOpen) {
-      console.log("Success message is open:", successMessageOpen);
-    }
-  }, [successMessageOpen]);
-
   return (
     <>
-      <SuccessMessage
-        setSuccessMessageOpen={setSuccessMessageOpen}
-        successMessageOpen={successMessageOpen}
-        successMessage="Dog saved successfully!"
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        message={successMessage}
       />
       <Dialog
         open={open}
