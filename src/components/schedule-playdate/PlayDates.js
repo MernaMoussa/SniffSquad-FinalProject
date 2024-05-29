@@ -14,7 +14,7 @@ function PlayDates() {
   const [playdates, setPlaydates] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState("");
 
   const userEvents = playdates;
 
@@ -118,7 +118,6 @@ function PlayDates() {
 
   const handleConfirm = async (event, action) => {
     console.log("handleConfirm =", action, event.title);
-    setIsLoading(true);
     return new Promise(async (res, rej) => {
       if (action === "edit") {
         try {
@@ -175,6 +174,7 @@ function PlayDates() {
           setSuccessMessage("Invitation sent successfully");
           setSnackbarOpen(true);
           setIsLoading(false);
+          res();
         } catch (error) {
           console.error("Error sending invitation:", error);
           rej("Ops... Failed");
