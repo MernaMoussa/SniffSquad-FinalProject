@@ -166,7 +166,10 @@ function PlayDates() {
             }
             setSuccessMessage("Invitation sent successfully");
             setSnackbarOpen(true);
-            res({});
+            res({
+              ...event,
+              event_id: event.event_id || Math.random(),
+            });
           })
           .catch((error) => {
             console.error("Error sending invitation:", error);
