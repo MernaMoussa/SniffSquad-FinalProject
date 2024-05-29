@@ -175,15 +175,6 @@ function PlayDates() {
           console.error("Error sending invitation:", error);
           rej("Ops... Failed");
         }
-      } else {
-        const isFail = Math.random() > 0.6;
-        setTimeout(() => {
-          if (isFail) {
-            rej("Ops... Failed");
-          } else {
-            res();
-          }
-        }, 3000);
       }
     });
   };
