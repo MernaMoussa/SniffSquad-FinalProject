@@ -139,12 +139,18 @@ function PlayDates() {
           });
       } else if (action === "create") {
         try {
+          const InvitationFormat = {
+            content: event?.title,
+            date: event?.start?.getDate,
+            time: event?.start?.getHours,
+          };
+          console.log(InvitationFormat);
           const response = fetch(`${baseUrl}/${user?.id}/send-invitation`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify(event),
+            body: JSON.stringify(InvitationFormat),
             credentials: "include",
           });
           console.log(response);
