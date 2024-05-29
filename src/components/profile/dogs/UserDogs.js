@@ -195,8 +195,6 @@ const UserDogs = ({
       if (response.ok) {
         const updatedData = await response.json();
         console.log("Saved Dog:", updatedData);
-        setSuccessMessage("Dog saved successfully!");
-        setSnackbarOpen(true);
         return updatedData;
       } else {
         throw new Error(`HTTP error ${response.status}`);
@@ -212,6 +210,8 @@ const UserDogs = ({
     if (savedDog) {
       console.log(savedDog);
       setDogData(savedDog);
+      setSuccessMessage("Dog saved successfully!");
+      setSnackbarOpen(true);
     }
     setAddMode(false);
   };
