@@ -116,66 +116,65 @@ function PlayDates() {
 
   const handleConfirm = async (event, action) => {
     console.log("handleConfirm =", action, event.title);
-    return new Promise(async (res, rej) => {
+    return new Promise((res, rej) => {
       if (action === "edit") {
-        try {
-          const response = await fetch(`${baseUrl}/events/${event.event_id}`, {
-            method: "PUT",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(event),
-          });
-
-          if (!response.ok) {
-            throw new Error("Failed to edit event");
-          }
-
-          const data = await response.json();
-
-          res({
-            ...event,
-            ...data,
-            event_id: event.event_id,
-          });
-        } catch (error) {
-          console.error("Error editing event:", error);
-          rej("Ops... Failed");
-        }
-      } else if (action === "create") {
-        try {
-          const InvitationFormat = {
-            content: event?.title,
-            date: event?.start?.toDateString(),
-            time: event?.start?.toLocaleTimeString([], {
-              hour: "2-digit",
-              minute: "2-digit",
-            }),
-          };
-
-          const response = await fetch(
-            `${baseUrl}/${event?.admin_id}/send-invitation`,
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify(InvitationFormat),
-              credentials: "include",
+        fetch(`${baseUrl}/events/${event.event_id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(event),
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to edit event");
             }
-          );
+            return response.json();
+          })
+          .then((data) => {
+            res({
+              ...event,
+              ...data,
+              event_id: event.event_id,
+            });
+          })
+          .catch((error) => {
+            console.error("Error editing event:", error);
+            rej("Ops... Failed");
+          });
+      } else if (action === "create") {
+        const InvitationFormat = {
+          content: event?.title,
+          date: event?.start?.toDateString(),
+          time: event?.start?.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
 
-          if (!response.ok) {
-            throw new Error("Failed to send invitation");
-          }
-
-          setSuccessMessage("Invitation sent successfully");
-          setSnackbarOpen(true);
-          res();
-        } catch (error) {
-          console.error("Error sending invitation:", error);
-          rej("Ops... Failed");
-        }
+        fetch(`${baseUrl}/${event?.admin_id}/send-invitation`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(InvitationFormat),
+          credentials: "include",
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error("Failed to send invitation");
+            }
+            setSuccessMessage("Invitation sent successfully");
+            setSnackbarOpen(true);
+            res({
+              ...event,
+              event_id: event.event_id || Math.random(),
+            });
+          })
+          .catch((error) => {
+            console.error("Error sending invitation:", error);
+            rej("Ops... Failed");
+          });
       }
     });
   };
