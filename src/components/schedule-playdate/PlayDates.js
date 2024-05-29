@@ -122,12 +122,20 @@ function PlayDates() {
     console.log("handleConfirm =", action, event.title);
     return new Promise((res, rej) => {
       if (action === "edit") {
+        const InvitationFormat = {
+          content: event?.title,
+          date: event?.start?.toDateString(),
+          time: event?.start?.toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        };
         fetch(`${baseUrl}/playdates/${event.event_id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(event),
+          body: JSON.stringify(InvitationFormat),
         })
           .then((response) => {
             if (!response.ok) {
