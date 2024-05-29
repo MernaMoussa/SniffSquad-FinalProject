@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Divider } from "@mui/material";
+import { Box, Button, Divider, Snackbar } from "@mui/material";
 import UserDogs from "./UserDogs";
 import { baseUrl } from "../../../constants/baseurl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -11,11 +11,14 @@ const UserDogsList = ({
   fetchUserDogsData,
 }) => {
   const [addMode, setAddMode] = useState(false);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
 
   const handleAddDog = () => {
     setAddMode(true);
     setEditDogMode(null);
   };
+
   const handleEditDog = async (dogId) => {
     try {
       const response = await fetch(`${baseUrl}/dogs/${dogId}`, {
@@ -51,10 +54,20 @@ const UserDogsList = ({
     fetchUserDogsData();
   }, [addMode]);
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
     <>
       {!addMode && (
         <>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={handleSnackbarClose}
+            message={successMessage}
+          />
           <Box marginTop={4} marginBottom={4} sx={{ textAlign: "right" }}>
             <Button
               variant="contained"
@@ -70,7 +83,12 @@ const UserDogsList = ({
       )}
       {addMode && (
         <Box marginTop={4} marginBottom={4}>
-          <UserDogs addMode={addMode} setAddMode={setAddMode} />
+          <UserDogs
+            addMode={addMode}
+            setAddMode={setAddMode}
+            setSuccessMessage={setSuccessMessage}
+            setSnackbarOpen={setSnackbarOpen}
+          />
         </Box>
       )}
       {dogs.map((dog) => (
@@ -81,6 +99,8 @@ const UserDogsList = ({
             handleEditDog={() => handleEditDog(dog?.id)}
             handleDeleteDog={handleDeleteDog}
             setEditDogMode={setEditDogMode}
+            setSuccessMessage={setSuccessMessage}
+            setSnackbarOpen={setSnackbarOpen}
           />
         </Box>
       ))}

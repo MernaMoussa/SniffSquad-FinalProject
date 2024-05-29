@@ -38,15 +38,16 @@ const UserDogs = ({
   setEditDogMode,
   addMode,
   setAddMode,
+  setSuccessMessage,
+  setSnackbarOpen,
 }) => {
   const [dogData, setDogData] = useState({});
   const [dogPicture, setDogPicture] = useState(null);
   const [fileSelected, setFileSelected] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [open, setOpen] = useState(false);
-  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  /* const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");*/
 
   useEffect(() => {
     if (addMode) {
@@ -125,10 +126,6 @@ const UserDogs = ({
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
     setFileSelected(true);
-  };
-
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
   };
 
   const handleUploadDogPhoto = async () => {
@@ -220,12 +217,6 @@ const UserDogs = ({
 
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={successMessage}
-      />
       <Dialog
         open={open}
         onClose={handleCloseDialog}
