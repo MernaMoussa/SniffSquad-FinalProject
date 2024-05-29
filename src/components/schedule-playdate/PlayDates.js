@@ -5,7 +5,6 @@ import { formatDate } from "./formateDate.utility";
 import { Snackbar, Typography } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../context/UserProvider";
-import { differenceInCalendarISOWeeks } from "date-fns";
 
 function PlayDates() {
   const { user } = useContext(UserContext);
@@ -172,7 +171,6 @@ function PlayDates() {
 
           setSuccessMessage("Invitation sent successfully");
           setSnackbarOpen(true);
-          res();
         } catch (error) {
           console.error("Error sending invitation:", error);
           rej("Ops... Failed");
@@ -183,10 +181,7 @@ function PlayDates() {
           if (isFail) {
             rej("Ops... Failed");
           } else {
-            res({
-              ...event,
-              event_id: event.event_id || Math.random(),
-            });
+            res();
           }
         }, 3000);
       }
