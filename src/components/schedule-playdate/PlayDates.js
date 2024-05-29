@@ -48,7 +48,7 @@ function PlayDates() {
       console.log("Playdates:", playdates);
       const playdatesWithParticipants = await Promise.all(
         playdates.map(async (playdate) => {
-          const playdateId = playdate.id;
+          const playdateId = playdate?.id;
           const participantResponse = await fetch(
             `${baseUrl}/playdates/${playdateId}`,
             {
