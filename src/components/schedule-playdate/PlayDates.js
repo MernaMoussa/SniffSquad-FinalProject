@@ -118,7 +118,7 @@ function PlayDates() {
 
   const handleConfirm = async (event, action) => {
     console.log("handleConfirm =", action, event.title);
-    setLoading(true);
+    setIsLoading(true);
     return new Promise(async (res, rej) => {
       if (action === "edit") {
         try {
