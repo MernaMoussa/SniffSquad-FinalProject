@@ -141,8 +141,11 @@ function PlayDates() {
         try {
           const InvitationFormat = {
             content: event?.title,
-            date: event?.start?.getDate,
-            time: event?.start?.getHours,
+            date: event?.start?.toDateString(),
+            time: event?.start?.toLocaleTimeString([], {
+              hour: "2-digit",
+              minute: "2-digit",
+            }),
           };
           console.log(InvitationFormat);
           const response = fetch(`${baseUrl}/${user?.id}/send-invitation`, {
