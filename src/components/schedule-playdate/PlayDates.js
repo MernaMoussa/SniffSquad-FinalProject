@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { baseUrl } from "../../constants/baseurl";
 import { formatDate } from "./formateDate.utility";
-import { Typography } from "@mui/material";
+import { Snackbar, Typography } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../context/UserProvider";
 import { differenceInCalendarISOWeeks } from "date-fns";
@@ -12,6 +12,9 @@ function PlayDates() {
   const calendarRef = useRef(null);
   const [allUsersExceptReq, setAllUsersExceptReq] = useState([]);
   const [playdates, setPlaydates] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const userEvents = playdates;
 
   useEffect(() => {
@@ -108,6 +111,10 @@ function PlayDates() {
     }
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   const handleConfirm = async (event, action) => {
     console.log("handleConfirm =", action, event.title);
 
@@ -164,7 +171,8 @@ function PlayDates() {
             throw new Error("Failed to send invitation");
           }
 
-          console.log("Invitation sent successfully");
+          setSuccessMessage("Invitation sent successfully");
+          setSnackbarOpen(true);
         } catch (error) {
           console.error("Error sending invitation:", error);
           rej("Ops... Failed");
@@ -209,55 +217,63 @@ function PlayDates() {
   return (
     <>
       {allUsersExceptReq.length > 0 && (
-        <Scheduler
-          ref={calendarRef}
-          events={userEvents}
-          onDelete={handleDelete}
-          onConfirm={handleConfirm}
-          fields={[
-            {
-              name: "admin_id",
-              type: "select",
-              options: allUsersExceptReq.map((option) => ({
-                id: option.admin_id,
-                text: option.email,
-                value: option.admin_id,
-              })),
-              config: { label: "Participant", required: true },
-            },
-            {
-              name: "location",
-              type: "input",
-              config: { label: "Location", required: true },
-            },
-          ]}
-          viewerExtraComponent={(fields, event) => {
-            return (
-              <div>
-                {fields.map((field, i) => {
-                  if (field.name === "admin_id") {
-                    const admin = field.options.find(
-                      (fe) => fe.id === event.admin_id
-                    );
-                    return (
-                      <Typography
-                        key={i}
-                        style={{ display: "flex", alignItems: "center" }}
-                        color="textSecondary"
-                        variant="caption"
-                        noWrap
-                      >
-                        <PersonRoundedIcon /> {admin.text}
-                      </Typography>
-                    );
-                  } else {
-                    return "";
-                  }
-                })}
-              </div>
-            );
-          }}
-        />
+        <>
+          <Snackbar
+            open={snackbarOpen}
+            autoHideDuration={6000}
+            onClose={handleSnackbarClose}
+            message={successMessage}
+          />
+          <Scheduler
+            ref={calendarRef}
+            events={userEvents}
+            onDelete={handleDelete}
+            onConfirm={handleConfirm}
+            fields={[
+              {
+                name: "admin_id",
+                type: "select",
+                options: allUsersExceptReq.map((option) => ({
+                  id: option.admin_id,
+                  text: option.email,
+                  value: option.admin_id,
+                })),
+                config: { label: "Participant", required: true },
+              },
+              {
+                name: "location",
+                type: "input",
+                config: { label: "Location", required: true },
+              },
+            ]}
+            viewerExtraComponent={(fields, event) => {
+              return (
+                <div>
+                  {fields.map((field, i) => {
+                    if (field.name === "admin_id") {
+                      const admin = field.options.find(
+                        (fe) => fe.id === event.admin_id
+                      );
+                      return (
+                        <Typography
+                          key={i}
+                          style={{ display: "flex", alignItems: "center" }}
+                          color="textSecondary"
+                          variant="caption"
+                          noWrap
+                        >
+                          <PersonRoundedIcon /> {admin.text}
+                        </Typography>
+                      );
+                    } else {
+                      return "";
+                    }
+                  })}
+                </div>
+              );
+            }}
+          />
+        </>
       )}
     </>
   );
