@@ -128,6 +128,7 @@ function PlayDates() {
           time: event?.start?.toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
+            hour12: false,
           }),
         };
         fetch(`${baseUrl}/playdates/${event.event_id}`, {
