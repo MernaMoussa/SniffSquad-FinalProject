@@ -242,7 +242,7 @@ function PlayDates() {
                 config: {
                   label: "Participant",
                   required: true,
-                  disabled: currentAction,
+                  disabled: true,
                 },
               },
               {
