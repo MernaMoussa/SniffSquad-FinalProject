@@ -174,6 +174,8 @@ const UserDogs = ({
       }
 
       const updatedData = await response.json();
+      setSuccessMessage("Dog saved successfully!");
+      setSnackbarOpen(true);
       console.log("Data updated:", updatedData);
     } catch (error) {
       console.error("Error updating data:", error);
