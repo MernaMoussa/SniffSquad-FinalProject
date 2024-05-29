@@ -137,6 +137,7 @@ function PlayDates() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify(InvitationFormat),
+          credentials: "include",
         })
           .then((response) => {
             if (!response.ok) {
