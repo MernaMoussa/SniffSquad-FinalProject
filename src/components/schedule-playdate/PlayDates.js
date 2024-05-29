@@ -13,7 +13,7 @@ function PlayDates() {
   const [playdates, setPlaydates] = useState([]);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
-  const [currentAction, setCurrentAction] = useState(false);
+  const [isEditAction, setIsEditAction] = useState(false);
 
   const userEvents = playdates;
 
@@ -122,7 +122,7 @@ function PlayDates() {
   const handleConfirm = async (event, action) => {
     return new Promise((res, rej) => {
       if (action === "edit") {
-        setCurrentAction(true);
+        setIsEditAction(true);
         const InvitationFormat = {
           content: event?.title,
           date: event?.start?.toDateString(),
@@ -158,6 +158,7 @@ function PlayDates() {
             rej("Ops... Failed");
           });
       } else if (action === "create") {
+        setIsEditAction(false);
         const InvitationFormat = {
           content: event?.title,
           date: event?.start?.toDateString(),
@@ -242,7 +243,7 @@ function PlayDates() {
                 config: {
                   label: "Participant",
                   required: true,
-                  disabled: true,
+                  disabled: isEditAction,
                 },
               },
               {
