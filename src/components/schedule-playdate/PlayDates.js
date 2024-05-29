@@ -45,7 +45,11 @@ function PlayDates() {
       }
 
       const playdates = await response.json();
-      console.log("Playdates:", playdates);
+      if (playdates?.length === 0) {
+        console.log("User doesn't have any playdates.");
+        setPlaydates([]);
+        return;
+      }
       const playdatesWithParticipants = await Promise.all(
         playdates.map(async (playdate) => {
           const playdateId = playdate?.id;
