@@ -168,7 +168,6 @@ function PlayDates() {
             setSnackbarOpen(true);
             res({
               ...event,
-              event_id: event.event_id || Math.random(),
             });
           })
           .catch((error) => {
