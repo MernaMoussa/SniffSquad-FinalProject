@@ -174,28 +174,32 @@ const UserDogs = ({
   };
 
   const saveNewDog = async () => {
-    try {
-      const response = await fetch(`${baseUrl}/dogs`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify(dogData),
-      });
+    return new Promise((resolve, reject) => {
+      setTimeout(async () => {
+        try {
+          const response = await fetch(`${baseUrl}/dogs`, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify(dogData),
+          });
 
-      if (response.ok) {
-        const updatedData = await response.json();
-        console.log("Saved Dog:", updatedData);
-        return updatedData;
-      } else {
-        throw new Error(`HTTP error ${response.status}`);
-      }
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      throw error;
-    }
+          if (response.ok) {
+            const updatedData = await response.json();
+            console.log("Saved Dog:", updatedData);
+            resolve(updatedData);
+          } else {
+            throw new Error(`HTTP error ${response.status}`);
+          }
+        } catch (error) {
+          console.error("Error uploading file:", error);
+          reject(error);
+        }
+      }, 1000);
+    });
   };
 
   const handelSaveNewDog = async () => {
@@ -204,19 +208,22 @@ const UserDogs = ({
       console.log(savedDog);
       setDogData(savedDog);
       setSuccessMessageOpen(true);
-      console.log(successMessageOpen);
-      console.log(successMessageOpen);
-      console.log(successMessageOpen);
     }
     setAddMode(false);
   };
+
+  useEffect(() => {
+    if (successMessageOpen) {
+      console.log("Success message is open:", successMessageOpen);
+    }
+  }, [successMessageOpen]);
 
   return (
     <>
       <SuccessMessage
         setSuccessMessageOpen={setSuccessMessageOpen}
         successMessageOpen={successMessageOpen}
-        successMessage="User registered successfully!"
+        successMessage="Dog saved successfully!"
       />
       <Dialog
         open={open}
