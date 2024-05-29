@@ -122,7 +122,7 @@ function PlayDates() {
     console.log("handleConfirm =", action, event.title);
     return new Promise((res, rej) => {
       if (action === "edit") {
-        fetch(`${baseUrl}/events/${event.event_id}`, {
+        fetch(`${baseUrl}/playdates/${event.event_id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
