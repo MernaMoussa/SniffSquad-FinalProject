@@ -3,6 +3,7 @@ import { Box, Button, Divider, Snackbar } from "@mui/material";
 import UserDogs from "./UserDogs";
 import { baseUrl } from "../../../constants/baseurl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import SuccessMessage from "../../../constants/SuccessMessage";
 const UserDogsList = ({
   dogs,
   editDogMode,
@@ -11,8 +12,7 @@ const UserDogsList = ({
   fetchUserDogsData,
 }) => {
   const [addMode, setAddMode] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
 
   const handleAddDog = () => {
     setAddMode(true);
@@ -54,19 +54,14 @@ const UserDogsList = ({
     fetchUserDogsData();
   }, [addMode]);
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
   return (
     <>
       {!addMode && (
         <>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-            message={successMessage}
+          <SuccessMessage
+            setSuccessMessageOpen={setSuccessMessageOpen}
+            successMessageOpen={successMessageOpen}
+            successMessage="Dog saved successfully!"
           />
           <Box marginTop={4} marginBottom={4} sx={{ textAlign: "right" }}>
             <Button
@@ -86,8 +81,7 @@ const UserDogsList = ({
           <UserDogs
             addMode={addMode}
             setAddMode={setAddMode}
-            setSuccessMessage={setSuccessMessage}
-            setSnackbarOpen={setSnackbarOpen}
+            setSuccessMessageOpen={setSuccessMessageOpen}
           />
         </Box>
       )}
@@ -99,8 +93,7 @@ const UserDogsList = ({
             handleEditDog={() => handleEditDog(dog?.id)}
             handleDeleteDog={handleDeleteDog}
             setEditDogMode={setEditDogMode}
-            setSuccessMessage={setSuccessMessage}
-            setSnackbarOpen={setSnackbarOpen}
+            setSuccessMessageOpen={setSuccessMessageOpen}
           />
         </Box>
       ))}

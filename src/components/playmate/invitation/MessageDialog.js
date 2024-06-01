@@ -7,15 +7,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { baseUrl } from "../../../constants/baseurl";
-import { Snackbar } from "@mui/material";
 
 export default function MessageDialog({
   handleClose,
   open,
   dog,
   owner,
-  setSuccessMessage,
-  setSnackbarOpen,
   setSuccessMessageOpen,
 }) {
   const [formData, setFormData] = React.useState({
@@ -43,8 +40,7 @@ export default function MessageDialog({
         throw new Error("Failed to send invitation");
       }
       setSuccessMessageOpen(true);
-      /* setSuccessMessage("Invitation sent successfully");
-      setSnackbarOpen(true);*/
+
       handleClose();
     } catch (error) {
       console.error("Error:", error);

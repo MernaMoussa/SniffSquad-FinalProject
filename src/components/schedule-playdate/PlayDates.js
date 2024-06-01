@@ -2,17 +2,17 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Scheduler } from "@aldabil/react-scheduler";
 import { baseUrl } from "../../constants/baseurl";
 import { formatDate } from "./formateDate.utility";
-import { Snackbar, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
 import { UserContext } from "../../context/UserProvider";
+import SuccessMessage from "../../constants/SuccessMessage";
 
 function PlayDates() {
   const { user } = useContext(UserContext);
   const calendarRef = useRef(null);
   const [allUsersExceptReq, setAllUsersExceptReq] = useState([]);
   const [playdates, setPlaydates] = useState([]);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
   const [isEditAction, setIsEditAction] = useState(false);
 
   const userEvents = playdates;
@@ -115,10 +115,6 @@ function PlayDates() {
     }
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
   const handleConfirm = async (event, action) => {
     return new Promise((res, rej) => {
       if (action === "edit") {
@@ -181,8 +177,8 @@ function PlayDates() {
             if (!response.ok) {
               throw new Error("Failed to send invitation");
             }
-            setSuccessMessage("Invitation sent successfully");
-            setSnackbarOpen(true);
+            setSuccessMessageOpen(true);
+
             res({
               ...event,
             });
@@ -220,11 +216,10 @@ function PlayDates() {
     <>
       {allUsersExceptReq.length > 0 && (
         <>
-          <Snackbar
-            open={snackbarOpen}
-            autoHideDuration={6000}
-            onClose={handleSnackbarClose}
-            message={successMessage}
+          <SuccessMessage
+            setSuccessMessageOpen={setSuccessMessageOpen}
+            successMessageOpen={successMessageOpen}
+            successMessage="Invitation sent successfully"
           />
           <Scheduler
             ref={calendarRef}

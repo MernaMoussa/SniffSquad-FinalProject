@@ -17,8 +17,6 @@ import SuccessMessage from "../../../constants/SuccessMessage";
 const DogCard = ({ dog, owner }) => {
   const [dogPicture, setDogPicture] = useState(null);
   const [open, setOpen] = useState(false);
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
   const [successMessageOpen, setSuccessMessageOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -52,17 +50,13 @@ const DogCard = ({ dog, owner }) => {
       console.error("Error fetching dog picture:", error);
     }
   };
-  /*
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-*/
+
   return (
     <>
       <SuccessMessage
         setSuccessMessageOpen={setSuccessMessageOpen}
         successMessageOpen={successMessageOpen}
-        successMessage="User registered successfully!"
+        successMessage="Invitation sent successfully!"
       />
       <Card key={dog?.id} sx={{ maxWidth: 250, minWidth: 250 }}>
         <CardHeader
@@ -115,8 +109,6 @@ const DogCard = ({ dog, owner }) => {
           open={open}
           dog={dog}
           owner={owner}
-          setSuccessMessage={setSuccessMessage}
-          setSnackbarOpen={setSnackbarOpen}
           setSuccessMessageOpen={setSuccessMessageOpen}
         />
       )}

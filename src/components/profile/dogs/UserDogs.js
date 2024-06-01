@@ -37,8 +37,7 @@ const UserDogs = ({
   setEditDogMode,
   addMode,
   setAddMode,
-  setSuccessMessage,
-  setSnackbarOpen,
+  setSuccessMessageOpen,
 }) => {
   const [dogData, setDogData] = useState({});
   const [dogPicture, setDogPicture] = useState(null);
@@ -170,8 +169,7 @@ const UserDogs = ({
       }
 
       const updatedData = await response.json();
-      setSuccessMessage("Dog saved successfully!");
-      setSnackbarOpen(true);
+      setSuccessMessageOpen(true);
       console.log("Data updated:", updatedData);
     } catch (error) {
       console.error("Error updating data:", error);
@@ -208,8 +206,7 @@ const UserDogs = ({
     if (savedDog) {
       console.log(savedDog);
       setDogData(savedDog);
-      setSuccessMessage("Dog saved successfully!");
-      setSnackbarOpen(true);
+      setSuccessMessageOpen(true);
     }
     setAddMode(false);
   };
