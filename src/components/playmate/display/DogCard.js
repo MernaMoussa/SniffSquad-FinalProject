@@ -12,12 +12,14 @@ import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import { Snackbar, Stack } from "@mui/material";
 import { baseUrl } from "../../../constants/baseurl";
 import MessageDialog from "../invitation/MessageDialog";
+import SuccessMessage from "../../../constants/SuccessMessage";
 
 const DogCard = ({ dog, owner }) => {
   const [dogPicture, setDogPicture] = useState(null);
   const [open, setOpen] = useState(false);
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [successMessageOpen, setSuccessMessageOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,17 +52,17 @@ const DogCard = ({ dog, owner }) => {
       console.error("Error fetching dog picture:", error);
     }
   };
+  /*
   const handleSnackbarClose = () => {
     setSnackbarOpen(false);
   };
-
+*/
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={successMessage}
+      <SuccessMessage
+        setSuccessMessageOpen={setSuccessMessageOpen}
+        successMessageOpen={successMessageOpen}
+        successMessage="User registered successfully!"
       />
       <Card key={dog?.id} sx={{ maxWidth: 250, minWidth: 250 }}>
         <CardHeader
@@ -115,6 +117,7 @@ const DogCard = ({ dog, owner }) => {
           owner={owner}
           setSuccessMessage={setSuccessMessage}
           setSnackbarOpen={setSnackbarOpen}
+          setSuccessMessageOpen={setSuccessMessageOpen}
         />
       )}
     </>

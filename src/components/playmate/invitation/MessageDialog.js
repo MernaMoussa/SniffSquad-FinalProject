@@ -16,6 +16,7 @@ export default function MessageDialog({
   owner,
   setSuccessMessage,
   setSnackbarOpen,
+  setSuccessMessageOpen,
 }) {
   const [formData, setFormData] = React.useState({
     content: "",
@@ -41,8 +42,9 @@ export default function MessageDialog({
       if (!response.ok) {
         throw new Error("Failed to send invitation");
       }
-      setSuccessMessage("Invitation sent successfully");
-      setSnackbarOpen(true);
+      setSuccessMessageOpen(true);
+      /* setSuccessMessage("Invitation sent successfully");
+      setSnackbarOpen(true);*/
       handleClose();
     } catch (error) {
       console.error("Error:", error);
