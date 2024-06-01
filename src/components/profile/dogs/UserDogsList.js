@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Divider, Snackbar } from "@mui/material";
+import { Box, Button, Divider } from "@mui/material";
 import UserDogs from "./UserDogs";
 import { baseUrl } from "../../../constants/baseurl";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -13,7 +13,7 @@ const UserDogsList = ({
 }) => {
   const [addMode, setAddMode] = useState(false);
   const [successMessageOpen, setSuccessMessageOpen] = useState(false);
-
+  const [successMessage, setSuccessMessage] = useState("");
   const handleAddDog = () => {
     setAddMode(true);
     setEditDogMode(null);
@@ -61,7 +61,7 @@ const UserDogsList = ({
           <SuccessMessage
             setSuccessMessageOpen={setSuccessMessageOpen}
             successMessageOpen={successMessageOpen}
-            successMessage="Dog saved successfully!"
+            successMessage={successMessage}
           />
           <Box marginTop={4} marginBottom={4} sx={{ textAlign: "right" }}>
             <Button
@@ -82,6 +82,7 @@ const UserDogsList = ({
             addMode={addMode}
             setAddMode={setAddMode}
             setSuccessMessageOpen={setSuccessMessageOpen}
+            setSuccessMessage={setSuccessMessage}
           />
         </Box>
       )}
@@ -94,6 +95,7 @@ const UserDogsList = ({
             handleDeleteDog={handleDeleteDog}
             setEditDogMode={setEditDogMode}
             setSuccessMessageOpen={setSuccessMessageOpen}
+            setSuccessMessage={setSuccessMessage}
           />
         </Box>
       ))}

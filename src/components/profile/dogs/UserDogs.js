@@ -38,14 +38,13 @@ const UserDogs = ({
   addMode,
   setAddMode,
   setSuccessMessageOpen,
+  setSuccessMessage,
 }) => {
   const [dogData, setDogData] = useState({});
   const [dogPicture, setDogPicture] = useState(null);
   const [fileSelected, setFileSelected] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
   const [open, setOpen] = useState(false);
-  /* const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");*/
 
   useEffect(() => {
     if (addMode) {
@@ -104,6 +103,10 @@ const UserDogs = ({
   const handelDelete = () => {
     handleDeleteDog(dog?.id);
     setOpen(false);
+    setSuccessMessageOpen(true);
+    setSuccessMessage(
+      "The dog has been deleted. We look forward to meeting your new furry friend!"
+    );
   };
 
   const handleCloseDialog = () => {
@@ -170,6 +173,7 @@ const UserDogs = ({
 
       const updatedData = await response.json();
       setSuccessMessageOpen(true);
+      setSuccessMessage("Dog details updated successfully!");
       console.log("Data updated:", updatedData);
     } catch (error) {
       console.error("Error updating data:", error);
@@ -207,6 +211,7 @@ const UserDogs = ({
       console.log(savedDog);
       setDogData(savedDog);
       setSuccessMessageOpen(true);
+      setSuccessMessage("New dog saved successfully!");
     }
     setAddMode(false);
   };
