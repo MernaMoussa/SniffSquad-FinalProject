@@ -9,15 +9,19 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { baseUrl } from "../../../constants/baseurl";
 import { Snackbar } from "@mui/material";
 
-export default function MessageDialog({ handleClose, open, dog, owner }) {
+export default function MessageDialog({
+  handleClose,
+  open,
+  dog,
+  owner,
+  setSuccessMessage,
+  setSnackbarOpen,
+}) {
   const [formData, setFormData] = React.useState({
     content: "",
     date: "",
     time: "",
   });
-
-  const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [successMessage, setSuccessMessage] = React.useState("");
 
   const handleChange = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
@@ -45,18 +49,8 @@ export default function MessageDialog({ handleClose, open, dog, owner }) {
     }
   };
 
-  const handleSnackbarClose = () => {
-    setSnackbarOpen(false);
-  };
-
   return (
     <>
-      <Snackbar
-        open={snackbarOpen}
-        autoHideDuration={6000}
-        onClose={handleSnackbarClose}
-        message={successMessage}
-      />
       <Dialog
         open={open}
         onClose={handleClose}
