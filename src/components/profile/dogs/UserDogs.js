@@ -28,7 +28,6 @@ import {
   genderOptions,
   sizeOptions,
 } from "../../../common/DogOptions";
-import SuccessMessage from "../../../constants/SuccessMessage";
 
 const UserDogs = ({
   dog,
